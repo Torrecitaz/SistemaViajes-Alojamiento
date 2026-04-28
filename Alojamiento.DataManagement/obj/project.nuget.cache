@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7QXcYWgkotQ=",
+  "dgSpecHash": "o2YtoLjtFy0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
+  "projectFilePath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Torres\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\Torres\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",

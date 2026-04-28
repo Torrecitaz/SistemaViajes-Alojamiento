@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // --- 1. CONFIGURACIÓN DE SERVICIOS (Dependency Injection) ---
@@ -14,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    // ESTA ES LA LÍNEA MÁGICA PARA ARREGLAR EL ERROR:
+    // Mantiene la compatibilidad de nombres de clases entre proyectos
     options.CustomSchemaIds(type => type.FullName);
 });
 
@@ -23,10 +24,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMobileApp", policy =>
     {
-        policy.WithOrigins("https://m.booking.com", "http://localhost:3000", "http://localhost:5173") // Permitir Vue local
+        policy.WithOrigins(
+                "https://m.booking.com", 
+                "http://localhost:3000", 
+                "http://localhost:5173",
+                "https://hospeda-ya-frontend.vercel.app" 
+              ) 
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .WithExposedHeaders("X-Pagination"); // Exponer headers custom (Paginación)
+              .WithExposedHeaders("X-Pagination"); 
     });
 });
 
@@ -53,23 +59,13 @@ builder.Services.AddDbContext<AlojamientoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Registro de Capas de Negocio (Business Layer)
-
-// Maneja la gestión de propiedades (Hoteles, Suites, Departamentos)
 builder.Services.AddScoped<IAlojamientoService, AlojamientoService>();
-
-// Maneja validación de disponibilidad y costos de estadía
 builder.Services.AddScoped<IReservaService, ReservaService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-
-// Maneja perfiles de Clientes/Colaboradores y sistema de puntos
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-
-// Nuevos servicios para el buscador de filtros y correos
 builder.Services.AddScoped<IBuscadorService, BuscadorService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-
-// --- NUEVOS SERVICIOS (Arquitectura Global) ---
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
@@ -95,30 +91,27 @@ using (var scope = app.Services.CreateScope())
 
 // --- 2. CONFIGURACIÓN DEL PIPELINE (Middleware) ---
 
-// Agregar el middleware de excepciones globales
+// Middleware de excepciones globales
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-if (app.Environment.IsDevelopment())
+// Habilitar Swagger en CUALQUIER entorno (Desarrollo y Producción/Render)
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    // Interoperabilidad: Swagger permite visualizar y probar los contratos de la API
-    app.UseSwagger();
-    app.UseSwaggerUI(); 
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "HospedaYa API V1");
+    options.RoutePrefix = string.Empty; // Hace que Swagger cargue directamente en la raíz de la URL
+});
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Permitir acceder a wwwroot/uploads para las fotos
+app.UseStaticFiles(); // Para fotos en wwwroot/uploads
 
-// Middleware de Mitigación XSS (Custom)
 app.UseMiddleware<AntiXssMiddleware>();
 
-// Aplicar CORS
 app.UseCors("AllowMobileApp");
 
-// Autenticación antes que Autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Mapeo de Controladores para habilitar los Endpoints de Alojamiento y Usuarios
 app.MapControllers(); 
 
 app.Run();

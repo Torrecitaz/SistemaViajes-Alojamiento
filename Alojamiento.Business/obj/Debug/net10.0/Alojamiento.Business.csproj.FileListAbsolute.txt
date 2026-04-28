@@ -16,3 +16,21 @@ C:\Users\Torres\proyecto alojamiento\HospedaYa_Limpio\Microservicio.Alojamiento\
 C:\Users\Torres\proyecto alojamiento\HospedaYa_Limpio\Microservicio.Alojamiento\Alojamiento.Business\obj\Debug\net10.0\refint\Alojamiento.Business.dll
 C:\Users\Torres\proyecto alojamiento\HospedaYa_Limpio\Microservicio.Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.pdb
 C:\Users\Torres\proyecto alojamiento\HospedaYa_Limpio\Microservicio.Alojamiento\Alojamiento.Business\obj\Debug\net10.0\ref\Alojamiento.Business.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.Business.deps.json
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.Business.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.Business.pdb
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.DataManagement.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.Domain.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.DataManagement.pdb
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\bin\Debug\net10.0\Alojamiento.Domain.pdb
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.csproj.AssemblyReference.cache
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.AssemblyInfoInputs.cache
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.AssemblyInfo.cs
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.csproj.CoreCompileInputs.cache
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.sourcelink.json
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamie.98CFB245.Up2Date
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\refint\Alojamiento.Business.dll
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\Alojamiento.Business.pdb
+C:\Users\Torres\SistemaViajes-Alojamiento\Alojamiento.Business\obj\Debug\net10.0\ref\Alojamiento.Business.dll

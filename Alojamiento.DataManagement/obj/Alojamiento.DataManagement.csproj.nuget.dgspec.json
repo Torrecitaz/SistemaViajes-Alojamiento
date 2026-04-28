@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj": {}
+    "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj": {
+    "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
+        "projectUniqueName": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
         "projectName": "Alojamiento.DataManagement",
-        "projectPath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
+        "projectPath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
         "packagesPath": "C:\\Users\\Torres\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.DataManagement\\obj\\",
+        "outputPath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj": {
-                "projectPath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj"
+              "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj": {
+                "projectPath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj"
               }
             }
           }
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -363,14 +363,14 @@
         }
       }
     },
-    "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj": {
+    "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj",
         "projectName": "Alojamiento.Domain",
-        "projectPath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj",
+        "projectPath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\Alojamiento.Domain.csproj",
         "packagesPath": "C:\\Users\\Torres\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Torres\\proyecto alojamiento\\HospedaYa_Limpio\\Microservicio.Alojamiento\\Alojamiento.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -424,7 +424,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

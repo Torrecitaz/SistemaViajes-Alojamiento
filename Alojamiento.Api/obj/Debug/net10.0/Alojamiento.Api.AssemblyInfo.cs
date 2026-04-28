@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Alojamiento.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9303fdb7a70da2b06a04dd0f26b594874b2c1510")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3119372d6ec12f7ab6b5cf070949f11b19e0aed8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Alojamiento.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Alojamiento.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
