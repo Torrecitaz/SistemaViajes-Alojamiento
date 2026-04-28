@@ -4,14 +4,19 @@ namespace Alojamiento.Business.DTOs
     {
         public int Id { get; set; }
         public string Nombre { get; set; } = string.Empty;
+        public string Descripcion { get; set; } = string.Empty;
+        public string Direccion { get; set; } = string.Empty;
         public string Ciudad { get; set; } = string.Empty;
-        public string TipoAlojamiento { get; set; } = string.Empty;
-        public decimal PrecioPorNoche { get; set; }
+        public string Pais { get; set; } = string.Empty;
+        public string TipoAlojamientoNombre { get; set; } = string.Empty;
+        public decimal PrecioBase { get; set; }
         public string Moneda { get; set; } = "USD";
-        public bool TieneWifi { get; set; }
-        public bool AdmiteMascotas { get; set; }
-        public bool TienePiscina { get; set; }
         public double Calificacion { get; set; }
-        public List<string> ImagenesUrls { get; set; } = new();
+        public int TotalResenas { get; set; }
+        public string EstadoPropiedad { get; set; } = string.Empty;
+        public bool AdmiteMascotas { get; set; }
+        public int CapacidadMaxima { get; set; }
+        public List<string> Instalaciones { get; set; } = new();
+        public List<string> Fotos { get; set; } = new();
     }
 }

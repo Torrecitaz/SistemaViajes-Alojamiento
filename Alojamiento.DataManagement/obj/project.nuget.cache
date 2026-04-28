@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "o2YtoLjtFy0=",
+  "dgSpecHash": "TGKGqmXBvFA=",
   "success": true,
   "projectFilePath": "C:\\Users\\Torres\\SistemaViajes-Alojamiento\\Alojamiento.DataManagement\\Alojamiento.DataManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Torres\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\Torres\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
+    "C:\\Users\\Torres\\.nuget\\packages\\bcrypt.net-next\\4.1.0\\bcrypt.net-next.4.1.0.nupkg.sha512",
     "C:\\Users\\Torres\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Torres\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
     "C:\\Users\\Torres\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.4\\microsoft.bcl.cryptography.9.0.4.nupkg.sha512",

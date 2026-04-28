@@ -1,14 +1,15 @@
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Alojamiento.Business.Interfaces;
 using Alojamiento.Business.DTOs;
 using Alojamiento.Business.Utils;
 using Alojamiento.DataManagement.Context;
-using Alojamiento.Domain.Enums;
 using Alojamiento.Domain.Entities.Alojamientos;
-using System.IO;
-using System;
+using Alojamiento.Domain.Entities.Seguridad;
 
 namespace Alojamiento.Business.Services
 {
@@ -21,20 +22,18 @@ namespace Alojamiento.Business.Services
             _context = context;
         }
 
-        public async Task<PagedList<PropertyResponseDTO>> GetPropertiesAsync(int pageNumber, int pageSize, Alojamiento.Domain.Enums.TipoAlojamiento? tipo, decimal? maxPrice, bool? admitenMascotas)
+        public async Task<PagedList<PropertyResponseDTO>> GetPropertiesAsync(
+            int pageNumber, int pageSize,
+            Alojamiento.Domain.Enums.TipoAlojamiento? tipo, decimal? maxPrice, bool? admitenMascotas)
         {
-            var query = _context.Propiedades.Include(p => p.Servicios).AsQueryable();
-
-            if (tipo.HasValue)
-            {
-                // TODO: Fix this query when the enum vs entity logic is fully migrated
-                // query = query.Where(p => p.TipoAlojamientoId == (int)tipo.Value);
-            }
-
-            if (maxPrice.HasValue)
-            {
-                // query = query.Where(p => p.PrecioPorNoche <= maxPrice.Value);
-            }
+            var query = _context.Propiedades
+                .Include(p => p.Servicios).ThenInclude(ps => ps.Servicio)
+                .Include(p => p.Fotos)
+                .Include(p => p.TipoAlojamiento)
+                .Include(p => p.Habitaciones).ThenInclude(h => h.Tarifas)
+                .Include(p => p.Ciudad).ThenInclude(c => c!.Pais)
+                .Where(p => !p.EliminadoLogico)
+                .AsQueryable();
 
             if (admitenMascotas.HasValue && admitenMascotas.Value)
             {
@@ -45,47 +44,99 @@ namespace Alojamiento.Business.Services
             {
                 Id = p.PropiedadId,
                 Nombre = p.Nombre,
+                Descripcion = p.Descripcion ?? "",
                 Direccion = p.Direccion,
-                TipoAlojamiento = Alojamiento.Domain.Enums.TipoAlojamiento.Hotel, // Placeholder
-                PrecioBase = 0m,
+                Ciudad = p.Ciudad != null ? p.Ciudad.Nombre : "",
+                Pais = p.Ciudad != null && p.Ciudad.Pais != null ? p.Ciudad.Pais.Nombre : "",
+                TipoAlojamientoNombre = p.TipoAlojamiento != null ? p.TipoAlojamiento.Nombre : "",
+                PrecioBase = p.Habitaciones
+                    .SelectMany(h => h.Tarifas)
+                    .OrderBy(t => t.PrecioPorNoche)
+                    .Select(t => (decimal?)t.PrecioPorNoche)
+                    .FirstOrDefault() ?? 0m,
                 Moneda = "USD",
                 Calificacion = (double)p.CalificacionPromedio,
-                Instalaciones = p.Servicios.Where(s => s.Servicio != null).Select(s => s.Servicio!.Nombre).ToList()
+                TotalResenas = p.TotalResenas,
+                EstadoPropiedad = p.EstadoPropiedad,
+                AdmiteMascotas = p.AdmiteMascotas,
+                CapacidadMaxima = p.Habitaciones.Sum(h => h.CapacidadAdultos),
+                Instalaciones = p.Servicios
+                    .Where(s => s.Servicio != null)
+                    .Select(s => s.Servicio!.Nombre).ToList(),
+                Fotos = p.Fotos
+                    .Where(f => !f.EliminadoLogico)
+                    .OrderBy(f => f.Orden)
+                    .Select(f => f.Url).ToList()
             });
 
             return await PagedList<PropertyResponseDTO>.CreateAsync(dtoQuery, pageNumber, pageSize);
         }
 
-        public async Task<PropertyResponseDTO> GetPropertyByIdAsync(int id)
+        public async Task<PropertyResponseDTO?> GetPropertyByIdAsync(int id)
         {
-            var property = await _context.Propiedades
-                .Include(p => p.Servicios)
-                .ThenInclude(ps => ps.Servicio)
-                .FirstOrDefaultAsync(p => p.PropiedadId == id);
+            var p = await _context.Propiedades
+                .Include(x => x.Servicios).ThenInclude(ps => ps.Servicio)
+                .Include(x => x.Fotos)
+                .Include(x => x.TipoAlojamiento)
+                .Include(x => x.Habitaciones).ThenInclude(h => h.Tarifas)
+                .Include(x => x.Ciudad).ThenInclude(c => c!.Pais)
+                .Include(x => x.Politica)
+                .FirstOrDefaultAsync(x => x.PropiedadId == id && !x.EliminadoLogico);
 
-            if (property == null) return null;
+            if (p == null) return null;
 
             return new PropertyResponseDTO
             {
-                Id = property.PropiedadId,
-                Nombre = property.Nombre,
-                Direccion = property.Direccion,
-                TipoAlojamiento = Alojamiento.Domain.Enums.TipoAlojamiento.Hotel, // Placeholder
-                PrecioBase = 0m,
+                Id = p.PropiedadId,
+                Nombre = p.Nombre,
+                Descripcion = p.Descripcion ?? "",
+                Direccion = p.Direccion,
+                Ciudad = p.Ciudad?.Nombre ?? "",
+                Pais = p.Ciudad?.Pais?.Nombre ?? "",
+                TipoAlojamientoNombre = p.TipoAlojamiento?.Nombre ?? "",
+                PrecioBase = p.Habitaciones
+                    .SelectMany(h => h.Tarifas)
+                    .OrderBy(t => t.PrecioPorNoche)
+                    .Select(t => (decimal?)t.PrecioPorNoche)
+                    .FirstOrDefault() ?? 0m,
                 Moneda = "USD",
-                Calificacion = (double)property.CalificacionPromedio,
-                Instalaciones = property.Servicios.Where(ps => ps.Servicio != null).Select(ps => ps.Servicio!.Nombre).ToList(),
-                Fotos = property.Fotos.OrderBy(f => f.Orden).Select(f => f.Url).ToList()
+                Calificacion = (double)p.CalificacionPromedio,
+                TotalResenas = p.TotalResenas,
+                EstadoPropiedad = p.EstadoPropiedad,
+                AdmiteMascotas = p.AdmiteMascotas,
+                CapacidadMaxima = p.Habitaciones.Sum(h => h.CapacidadAdultos),
+                Instalaciones = p.Servicios
+                    .Where(s => s.Servicio != null)
+                    .Select(s => s.Servicio!.Nombre).ToList(),
+                Fotos = p.Fotos
+                    .Where(f => !f.EliminadoLogico)
+                    .OrderBy(f => f.Orden)
+                    .Select(f => f.Url).ToList()
             };
         }
 
         public async Task<PropertyResponseDTO> CreatePropertyAsync(PropertyCreateDTO dto, int usuarioId, string webRootPath)
         {
-            // 1. Obtener Anfitrión
+            // 1. Obtener Anfitrión — si es Admin y no tiene perfil Anfitrion, crear uno auto
             var anfitrion = await _context.Anfitriones.FirstOrDefaultAsync(a => a.UsuarioId == usuarioId);
-            if (anfitrion == null) throw new InvalidOperationException("El usuario no es un anfitrión válido.");
+            if (anfitrion == null)
+            {
+                // Verificar que el usuario existe
+                var usuario = await _context.Usuarios.FindAsync(usuarioId);
+                if (usuario == null) throw new InvalidOperationException("Usuario no encontrado.");
 
-            // 2. Crear Entidad Propiedad
+                // Auto-crear perfil anfitrión para admins que publican
+                anfitrion = new Anfitrion
+                {
+                    UsuarioId = usuarioId,
+                    Verificado = true,
+                    NombreEmpresa = usuario.NombreCompleto
+                };
+                _context.Anfitriones.Add(anfitrion);
+                await _context.SaveChangesAsync();
+            }
+
+            // 2. Crear Propiedad
             var propiedad = new Propiedad
             {
                 Nombre = dto.Nombre,
@@ -107,6 +158,8 @@ namespace Alojamiento.Business.Services
                 PropiedadId = propiedad.PropiedadId,
                 Nombre = "Unidad Principal",
                 CapacidadAdultos = dto.CapacidadAdultos,
+                NumBanos = 1,
+                NumDormitorios = 1,
                 AdmiteMascotas = false
             };
             _context.Habitaciones.Add(habitacion);
@@ -124,7 +177,7 @@ namespace Alojamiento.Business.Services
             };
             _context.TarifasHabitaciones.Add(tarifa);
 
-            // 5. Guardar Fotos Físicamente
+            // 5. Guardar Fotos
             if (dto.Fotos != null && dto.Fotos.Count > 0)
             {
                 var uploadsFolder = Path.Combine(webRootPath, "uploads", "properties", propiedad.PropiedadId.ToString());
@@ -158,7 +211,7 @@ namespace Alojamiento.Business.Services
 
             await _context.SaveChangesAsync();
 
-            return await GetPropertyByIdAsync(propiedad.PropiedadId);
+            return (await GetPropertyByIdAsync(propiedad.PropiedadId))!;
         }
     }
 }

@@ -8,10 +8,10 @@ using System.Text.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using System.IO;
 
 namespace Alojamiento.Api.Controllers
 {
-    [Authorize(Roles = "Anfitrion,Admin")]
     [ApiController]
     [Route("api/v1/properties")]
     public class PropertiesController : ControllerBase
@@ -25,10 +25,11 @@ namespace Alojamiento.Api.Controllers
             _env = env;
         }
 
-        [HttpGet("search")]
+        /// <summary>Listar propiedades con paginación y filtros (público)</summary>
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetProperties(
-            [FromQuery] int pageNumber = 1, 
+            [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
             [FromQuery] TipoAlojamiento? tipo = null,
             [FromQuery] decimal? maxPrice = null,
@@ -36,7 +37,6 @@ namespace Alojamiento.Api.Controllers
         {
             var pagedProperties = await _propertyService.GetPropertiesAsync(pageNumber, pageSize, tipo, maxPrice, admitenMascotas);
 
-            // Exponer metadatos de paginación en el header
             var metadata = new
             {
                 pagedProperties.TotalCount,
@@ -46,21 +46,24 @@ namespace Alojamiento.Api.Controllers
                 pagedProperties.HasNext,
                 pagedProperties.HasPrevious
             };
-            
-            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metadata));
 
+            Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metadata));
             return Ok(pagedProperties);
         }
 
+        /// <summary>Obtener detalle de propiedad (público)</summary>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProperty(int id)
         {
             var property = await _propertyService.GetPropertyByIdAsync(id);
-            if (property == null) return NotFound();
+            if (property == null) return NotFound(new { message = "Propiedad no encontrada" });
             return Ok(property);
         }
 
+        /// <summary>Crear nueva propiedad — Anfitrión o Admin</summary>
         [HttpPost]
+        [Authorize(Roles = "Anfitrion,Admin")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateProperty([FromForm] PropertyCreateDTO dto)
         {
@@ -74,7 +77,8 @@ namespace Alojamiento.Api.Controllers
 
             try
             {
-                var response = await _propertyService.CreatePropertyAsync(dto, usuarioId, _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+                var webRoot = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var response = await _propertyService.CreatePropertyAsync(dto, usuarioId, webRoot);
                 return CreatedAtAction(nameof(GetProperty), new { id = response.Id }, response);
             }
             catch (InvalidOperationException ex)

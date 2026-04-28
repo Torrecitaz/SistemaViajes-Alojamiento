@@ -369,6 +369,7 @@
       "Alojamiento.DataManagement/1.0.0": {
         "dependencies": {
           "Alojamiento.Domain": "1.0.0",
+          "BCrypt.Net-Next": "4.1.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.6",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.1"
         },
